@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Un mensaje para ti ❤️</title>
+
+    <style>
+
+        body{
+        margin:0;
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+        font-family:Arial;
+        overflow:hidden;
+        }
+
+        /* contenedor */
+
+        .container{
+        text-align:center;
+        position:relative;
+        max-width:320px;
+        }
+
+        /* SOBRE */
+
+        .envelope{
+        width:280px;
+        height:180px;
+        background:#e63946;
+        position:relative;
+        border-radius:6px;
+        cursor:pointer;
+        box-shadow:0 15px 30px rgba(0,0,0,0.2);
+        overflow:hidden; /* CLAVE: oculta la carta */
+        }
+
+        /* tapa del sobre */
+
+        .flap{
+        position:absolute;
+        width:0;
+        height:0;
+        border-left:140px solid transparent;
+        border-right:140px solid transparent;
+        border-bottom:90px solid #d62839;
+        top:-90px;
+        left:0;
+        transform-origin:bottom;
+        transition:transform .8s ease;
+        z-index:3;
+        }
+
+        /* carta */
+
+        .letter{
+        position:absolute;
+        background:white;
+        width:90%;
+        left:5%;
+        top:100px; /* empieza dentro del sobre */
+        padding:12px;
+        border-radius:8px;
+        box-shadow:0 10px 20px rgba(0,0,0,.2);
+        transition:top 1s ease;
+        z-index:1;
+        }
+
+        .letter img{
+        width:100%;
+        border-radius:6px;
+        }
+
+        /* mensaje */
+
+        .message{
+        margin-top:10px;
+        font-size:15px;
+        min-height:40px;
+        }
+
+        /* animación abrir */
+
+        .open .flap{
+        transform:rotateX(180deg);
+        }
+
+        .open .letter{
+        top:-60px; /* la carta sale */
+        }
+
+        /* corazones */
+
+        .heart{
+        position:absolute;
+        color:red;
+        font-size:20px;
+        animation:float 4s linear infinite;
+        opacity:0.8;
+        }
+
+        @keyframes float{
+
+        0%{
+        transform:translateY(0);
+        opacity:1;
+        }
+
+        100%{
+        transform:translateY(-600px);
+        opacity:0;
+        }
+
+        }
+
+        /* texto */
+
+        .hint{
+        margin-top:15px;
+        color:white;
+        font-size:14px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="envelope" id="envelope">
+
+        <div class="flap"></div>
+
+        <div class="letter">
+
+            <img src="https://picsum.photos/300/150">
+
+            <div class="message" id="message"></div>
+
+        </div>
+
+    </div>
+
+    <div class="hint">Toca el sobre 💌</div>
+
+</div>
+
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c3c1f8c1f.mp3?filename=vivaldi-spring-112194.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+    const envelope = document.getElementById("envelope");
+    const music = document.getElementById("music");
+
+    const text = "Para ti ❤️ Espero que este pequeño mensaje te saque una sonrisa hoy.";
+
+    let index = 0;
+
+    envelope.addEventListener("click", ()=>{
+
+    envelope.classList.add("open");
+
+    music.play();
+
+    typeWriter();
+
+    createHearts();
+
+    });
+
+    function typeWriter(){
+
+    if(index < text.length){
+
+    document.getElementById("message").innerHTML += text.charAt(index);
+
+    index++;
+
+    setTimeout(typeWriter,40);
+
+    }
+
+    }
+
+    /* corazones */
+
+    function createHearts(){
+
+    setInterval(()=>{
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random()*100+"vw";
+
+    heart.style.fontSize = (Math.random()*20+10)+"px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+
+    heart.remove();
+
+    },4000);
+
+    },300);
+
+    }
+
+</script>
+
+</body>
+
+</html>
