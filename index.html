@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Un mensaje para ti ❤️</title>
+    <title>13/03/2026 💌</title>
 
     <style>
 
@@ -21,28 +21,17 @@
         overflow:hidden;
         }
 
-        /* contenedor */
-
-        .container{
-        text-align:center;
-        position:relative;
-        max-width:320px;
-        }
-
         /* SOBRE */
 
         .envelope{
         width:280px;
         height:180px;
         background:#e63946;
+        border-radius:8px;
         position:relative;
-        border-radius:6px;
         cursor:pointer;
-        box-shadow:0 15px 30px rgba(0,0,0,0.2);
-        overflow:hidden; /* CLAVE: oculta la carta */
+        box-shadow:0 20px 40px rgba(0,0,0,0.2);
         }
-
-        /* tapa del sobre */
 
         .flap{
         position:absolute;
@@ -52,58 +41,45 @@
         border-right:140px solid transparent;
         border-bottom:90px solid #d62839;
         top:-90px;
-        left:0;
-        transform-origin:bottom;
-        transition:transform .8s ease;
-        z-index:3;
         }
 
-        /* carta */
+        /* TEXTO */
 
-        .letter{
-        position:absolute;
+        .hint{
+        margin-top:20px;
+        text-align:center;
+        color:white;
+        font-size:16px;
+        }
+
+        /* CARTA */
+
+        .card{
+        display:none;
         background:white;
-        width:90%;
-        left:5%;
-        top:100px; /* empieza dentro del sobre */
-        padding:12px;
-        border-radius:8px;
-        box-shadow:0 10px 20px rgba(0,0,0,.2);
-        transition:top 1s ease;
-        z-index:1;
+        padding:15px;
+        border-radius:10px;
+        width:300px;
+        box-shadow:0 20px 40px rgba(0,0,0,0.2);
+        text-align:center;
         }
 
-        .letter img{
+        .card img{
         width:100%;
-        border-radius:6px;
+        border-radius:8px;
         }
-
-        /* mensaje */
 
         .message{
         margin-top:10px;
-        font-size:15px;
-        min-height:40px;
-        }
-
-        /* animación abrir */
-
-        .open .flap{
-        transform:rotateX(180deg);
-        }
-
-        .open .letter{
-        top:-60px; /* la carta sale */
+        font-size:16px;
         }
 
         /* corazones */
 
         .heart{
         position:absolute;
-        color:red;
         font-size:20px;
         animation:float 4s linear infinite;
-        opacity:0.8;
         }
 
         @keyframes float{
@@ -120,33 +96,19 @@
 
         }
 
-        /* texto */
-
-        .hint{
-        margin-top:15px;
-        color:white;
-        font-size:14px;
-        }
-
     </style>
 
 </head>
 
 <body>
 
-<div class="container">
+<!-- SOBRE -->
 
-    <div class="envelope" id="envelope">
+<div id="sobre">
+
+    <div class="envelope" onclick="abrirCarta()">
 
         <div class="flap"></div>
-
-        <div class="letter">
-
-            <img src="https://picsum.photos/300/150">
-
-            <div class="message" id="message"></div>
-
-        </div>
 
     </div>
 
@@ -154,70 +116,60 @@
 
 </div>
 
+<!-- CARTA -->
+
+<div class="card" id="carta">
+
+    <img src="https://picsum.photos/300/150">
+
+    <div class="message">
+        Ponte más bonita de lo que ya eres, paso por ti a las 8. ❤️
+
+    </div>
+
+</div>
+
 <audio id="music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c3c1f8c1f.mp3?filename=vivaldi-spring-112194.mp3" type="audio/mp3">
+    <source src="vivaldi.mp3" type="audio/mp3">
 </audio>
 
 <script>
 
-    const envelope = document.getElementById("envelope");
-    const music = document.getElementById("music");
+    function abrirCarta(){
 
-    const text = "Para ti ❤️ Espero que este pequeño mensaje te saque una sonrisa hoy.";
+    document.getElementById("sobre").style.display="none"
 
-    let index = 0;
+    document.getElementById("carta").style.display="block"
 
-    envelope.addEventListener("click", ()=>{
+    document.getElementById("music").play()
 
-    envelope.classList.add("open");
-
-    music.play();
-
-    typeWriter();
-
-    createHearts();
-
-    });
-
-    function typeWriter(){
-
-    if(index < text.length){
-
-    document.getElementById("message").innerHTML += text.charAt(index);
-
-    index++;
-
-    setTimeout(typeWriter,40);
+    crearCorazones()
 
     }
 
-    }
-
-    /* corazones */
-
-    function createHearts(){
+    function crearCorazones(){
 
     setInterval(()=>{
 
-    const heart = document.createElement("div");
+    const heart=document.createElement("div")
 
-    heart.className = "heart";
+    heart.className="heart"
 
-    heart.innerHTML = "❤️";
+    heart.innerHTML="❤️"
 
-    heart.style.left = Math.random()*100+"vw";
+    heart.style.left=Math.random()*100+"vw"
 
-    heart.style.fontSize = (Math.random()*20+10)+"px";
+    heart.style.fontSize=(Math.random()*20+10)+"px"
 
-    document.body.appendChild(heart);
+    document.body.appendChild(heart)
 
     setTimeout(()=>{
 
-    heart.remove();
+    heart.remove()
 
-    },4000);
+    },4000)
 
-    },300);
+    },300)
 
     }
 
